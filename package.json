@@ -1,0 +1,18 @@
+{
+  "name": "sticky-notes-app",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prettier": "prettier --write \"src/**/*.js\" --config \".prettierrc.json\""
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "prettier": "3.8.1",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.2.4"
+  }
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Notes App</title>
+  </head>
+  <body class="container mx-auto bg-stone-100 font-patrick-hand">
+    <header class="max-w-3xl py-4 mx-auto mt-5 font-thin text-center">
+      <div class="flex items-center justify-center mb-5">
+        <img src="/logo.png" alt="" sizes="" srcset="" />
+      </div>
+      <h1
+        class="mb-4 text-3xl sm:text-4xl base:text-5xl md:text-6xl lg:text-7xl text-rose-700"
+      >
+        ^^ Sticky Notes ^^
+      </h1>
+    </header>
+
+    <main
+      class="p-5 mx-2 font-thin bg-white divide-y shadow-md sm:mx-auto md:max-w-3xl"
+    >
+      <textarea
+        id="new-note"
+        placeholder="Create a new note..."
+        autofocus
+        rows="3"
+        class="w-full p-4 mb-5 italic outline-none resize-none text-md sm:text-lg base:text-xl md:text-2xl focus:outline-offset-0 focus:outline-rose-700"
+      ></textarea>
+
+      <section
+        id="notes-wall"
+        class="flex flex-wrap justify-center md:justify-start"
+      >
+        <!-- Example of a note -->
+        <div
+          class="relative w-40 h-40 p-0 m-2 overflow-y-auto transition-transform transform bg-yellow-200 shadow-lg note hover:scale-105"
+        >
+          <button
+            class="absolute w-5 h-5 leading-5 text-center transition-opacity opacity-0 cursor-pointer delete-btn top-1 right-1 hover:opacity-100"
+          >
+            🗑
+          </button>
+          <div class="p-4 note-text">Buy milk</div>
+          <textarea
+            class="absolute top-0 left-0 hidden w-full h-full p-4 transition-transform transform bg-yellow-300 shadow-xl resize-none outline-rose-700 outline-offset-0 note-edit note hover:scale-105"
+          >
+            Buy milk
+          </textarea>
+        </div>
+        <div
+          class="relative w-40 h-40 p-0 m-2 overflow-y-auto transition-transform transform bg-yellow-200 shadow-lg note hover:scale-105"
+        >
+          <button
+            class="absolute w-5 h-5 leading-5 text-center transition-opacity opacity-0 cursor-pointer delete-btn top-1 right-1 hover:opacity-100"
+          >
+            🗑
+          </button>
+          <div class="p-4 note-text">Buy bread</div>
+          <textarea
+            class="absolute top-0 left-0 hidden w-full h-full p-4 transition-transform transform bg-yellow-300 shadow-xl resize-none outline-rose-700 outline-offset-0 note-edit note hover:scale-105"
+          >
+            Buy bread
+          </textarea>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="flex flex-col items-center justify-center max-w-lg mx-auto mt-10 text-xs text-gray-500 font-extralight"
+    >
+      <div class="text-center text-balance">
+        Hover over a note's top right corner to see the delete button
+      </div>
+      <div class="text-center text-balance">Double-click to edit a note</div>
+      <div class="text-center text-balance">
+        Use Shift + Enter for multi-line notes
+      </div>
+    </footer>
+
+    <!-- Scripts here. Don't remove ↓ -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+  base: "/hw2-starter/", /* TODO: update to your repository name */
+});
