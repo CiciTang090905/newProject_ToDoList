@@ -39,7 +39,6 @@ const createNotesApp = () => {
 };
 
 const notesApp = createNotesApp();
-
 const createDeleteButton = () => {
     const btn = document.createElement("button");
     btn.classList.add(
@@ -62,15 +61,21 @@ const createDeleteButton = () => {
 
 const createNoteText = (note, isEditing) => {
     const div = document.createElement("div");
-    div.classList.add("p-4", "note-text");
+    div.classList.add(
+        "p-4",
+        "note-text",
+        "whitespace-pre-wrap",
+        "break-words",
+        "[overflow-wrap:anywhere]",
+    );
     if (isEditing) div.classList.add("hidden");
     div.textContent = note.text;
     return div;
 };
 
 const createNoteEdit = (note, isEditing) => {
-    const ta = document.createElement("textarea");
-    ta.classList.add(
+    const editText = document.createElement("textarea");
+    editText.classList.add(
         "absolute",
         "top-0",
         "left-0",
@@ -82,14 +87,19 @@ const createNoteEdit = (note, isEditing) => {
         "bg-yellow-300",
         "shadow-xl",
         "resize-none",
-        "outline-rose-700",
-        "outline-offset-0",
+        "border-0",
+        "outline-none",
+        "focus:outline-none",
+        "focus:ring-0",
+        "whitespace-pre-wrap",
+        "break-words",
+        "[overflow-wrap:anywhere]",
         "note-edit",
-        "hover:scale-105",
     );
-    if (!isEditing) ta.classList.add("hidden");
-    ta.value = note.text;
-    return ta;
+
+    if (!isEditing) editText.classList.add("hidden");
+    editText.value = note.text;
+    return editText;
 };
 
 const createNoteCard = (note, isEditing) => {
@@ -109,41 +119,35 @@ const createNoteCard = (note, isEditing) => {
         "hover:scale-105",
     );
     card.id = `note-${note.id}`;
-
     const textEl = createNoteText(note, isEditing);
     const editEl = createNoteEdit(note, isEditing);
-
     card.append(createDeleteButton(), textEl, editEl);
     return card;
 };
 
-const parseNoteId = (noteEl) =>
-    noteEl ? Number(noteEl.id.split("-").pop()) : -1;
+const parseNoteId = (note) => note ? Number(note.id.split("-").pop()) : -1;
 
 const renderNotes = () => {
     notesWall.innerHTML = "";
 
-    const editingId = notesApp.getEditingId();
-    const noteEls = notesApp
+    const editId = notesApp.getEditingId();
+    const noteElements = notesApp
         .getNotes()
-        .map((note) => createNoteCard(note, note.id === editingId));
+        .map((note) => createNoteCard(note, note.id === editId));
 
-    notesWall.append(...noteEls);
+    notesWall.append(...noteElements);
 
     // focus textarea if we are editing
-    if (editingId !== null) {
-        const editingCard = document.getElementById(`note-${editingId}`);
-        const ta = editingCard?.querySelector(".note-edit");
-        if (ta) {
-            ta.focus();
-            ta.setSelectionRange(ta.value.length, ta.value.length);
+    if (editId !== null) {
+        const editCard = document.getElementById(`note-${editId}`);
+        const editText = editCard?.querySelector(".note-edit");
+        if (editText) {
+            editText.focus();
+            editText.setSelectionRange(editText.value.length, editText.value.length);
         }
     }
 };
 
-// ----------------------------
-// Event handlers
-// ----------------------------
 const handleCreateNote = (event) => {
     // Shift+Enter => allow newline in the input textarea
     if (event.key === "Enter" && event.shiftKey) return;
@@ -156,7 +160,6 @@ const handleCreateNote = (event) => {
             event.target.value = "";
             return;
         }
-
         notesApp.add(text);
         event.target.value = "";
         renderNotes();
@@ -189,28 +192,22 @@ const handleWallClick = (event) => {
 const handleWallKeyDown = (event) => {
     const edit = event.target.closest(".note-edit");
     if (!edit) return;
-
-    // Shift+Enter => newline inside edit textarea
+    // Shift+Enter => newline 
     if (event.key === "Enter" && event.shiftKey) return;
-
     // Save on Enter or Escape
     if (event.key !== "Enter" && event.key !== "Escape") return;
 
     event.preventDefault();
-
     const note = edit.closest(".note");
     const id = parseNoteId(note);
     if (id === -1) return;
-
     const text = edit.value.trim();
-
     // If empty after edit, delete note
     if (!text) {
         notesApp.remove(id);
         renderNotes();
         return;
     }
-
     notesApp.saveEdit(id, text);
     renderNotes();
 };
